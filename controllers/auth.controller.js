@@ -33,6 +33,15 @@ exports.registerController = (req, res) => {
       errors: firstError
     });
   } else {
+    // التحقق من قوة كلمة المرور
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
+    if (!passwordRegex.test(password)) {
+      console.log('Password validation failed'); // تحقق من أن الرسالة يتم تسجيلها
+      return res.status(400).json({
+        errors: 'Password must be at least 9 characters long, contain at least one uppercase letter, one number, and one special character'
+      });
+    }
+
     User.findOne({ email }).exec((err, user) => {
       if (user) {
         // إذا كان المستخدم موجودًا، أرسل رسالة الخطأ وتوقف

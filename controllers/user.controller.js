@@ -16,8 +16,6 @@ exports.readController = (req, res) => {
 };
 
 exports.updateController = (req, res) => {
-    
-    // console.log('UPDATE USER - req.user', req.user, 'UPDATE DATA', req.body);
     const { name, password } = req.body;
 
     User.findOne({ _id: req.user._id }, (err, user) => {
@@ -34,10 +32,12 @@ exports.updateController = (req, res) => {
             user.name = name;
         }
 
+        // Password validation
         if (password) {
-            if (password.length < 6) {
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
+            if (!passwordRegex.test(password)) {
                 return res.status(400).json({
-                    error: 'Password should be min 6 characters long'
+                    error: 'Password must be at least 9 characters long, contain at least one uppercase letter, one number, and one special character'
                 });
             } else {
                 user.password = password;
