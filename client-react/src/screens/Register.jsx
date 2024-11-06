@@ -14,47 +14,81 @@ const Register = () => {
     textChange: 'Sign Up'
   });
 
+  const [passwordError, setPasswordError] = useState(''); // حالة الخطأ لكلمة المرور
+  const [passwordStrengthMessage, setPasswordStrengthMessage] = useState(''); // حالة رسالة قوة كلمة المرور
+
   const { name, email, password1, password2, textChange } = formData;
+
+  // دالة للتحقق من قوة كلمة المرور
+  const validatePasswordStrength = password => {
+    const lengthValid = password.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const validPassword =
+      lengthValid && hasUpperCase && hasNumber && hasSpecialChar;
+
+    if (!validPassword) {
+      setPasswordStrengthMessage(
+        'Password must be at least 8 characters, include an uppercase letter, a number, and a special character.'
+      );
+    } else {
+      setPasswordStrengthMessage('');
+    }
+    return validPassword;
+  };
+
   const handleChange = text => e => {
     setFormData({ ...formData, [text]: e.target.value });
+    if (text === 'password1') {
+      setPasswordStrengthMessage(''); // إعادة تعيين رسالة قوة كلمة المرور عند الكتابة
+    }
   };
+
   const handleSubmit = e => {
     e.preventDefault();
     if (name && email && password1) {
       if (password1 === password2) {
-        setFormData({ ...formData, textChange: 'Submitting' });
-        console.log(process.env.REACT_APP_API_URL);
-        axios.post(`${process.env.REACT_APP_API_URL}/register`, {
-            name,
-            email,
-            password: password1
-          })
-          .then(res => {
-            setFormData({
-              ...formData,
-              name: '',
-              email: '',
-              password1: '',
-              password2: '',
-              textChange: 'Submitted'
-            });
+        if (validatePasswordStrength(password1)) {
+          setFormData({ ...formData, textChange: 'Submitting' });
+          console.log(process.env.REACT_APP_API_URL);
 
-            toast.success(res.data.message);
-          })
-          .catch(err => {
-            setFormData({
-              ...formData,
-              name: '',
-              email: '',
-              password1: '',
-              password2: '',
-              textChange: 'Sign Up'
-            });
-            console.log(err.response);
-            toast.error(err.response.data.errors);
+          axios.post(`${process.env.REACT_APP_API_URL}/register`, {
+              name,
+              email,
+              password: password1
+            })
+            .then(res => {
+              setFormData({
+                ...formData,
+                name: '',
+                email: '',
+                password1: '',
+                password2: '',
+                textChange: 'Submitted'
+              });
+
+              toast.success(res.data.message);
+            })
+            .catch(err => {
+              setFormData({
+                  ...formData,
+                  password1: '',
+                  password2: '',
+                  textChange: 'Sign Up'
+              });
+          
+              console.log(err.response);  // طباعة الخطأ لمساعدتك في التشخيص
+          
+              if (err.response && err.response.data) {
+                  toast.error(err.response.errors || 'An error occurred. Please try again later.');  // عرض رسالة الخطأ
+              } else {
+                  toast.error('An error occurred,, Please try again later.');  // رسالة افتراضية
+              }
           });
+        }
       } else {
-        toast.error("Passwords don't matches");
+        toast.error("Passwords don't match");
       }
     } else {
       toast.error('Please fill all fields');
@@ -98,6 +132,9 @@ const Register = () => {
                   onChange={handleChange('password1')}
                   value={password1}
                 />
+                {passwordStrengthMessage && (
+                  <small className="text-red-500 text-xs mt-2">{passwordStrengthMessage}</small>
+                )}
                 <input
                   className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5'
                   type='password'
@@ -139,7 +176,6 @@ const Register = () => {
           ></div>
         </div>
       </div>
-      ;
     </div>
   );
 };
