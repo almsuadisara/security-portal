@@ -11,15 +11,14 @@ const Register = () => {
     email: '',
     password1: '',
     password2: '',
-    textChange: 'Sign Up'
+    textChange: 'تسجيل'
   });
 
-  const [passwordError, setPasswordError] = useState(''); // حالة الخطأ لكلمة المرور
-  const [passwordStrengthMessage, setPasswordStrengthMessage] = useState(''); // حالة رسالة قوة كلمة المرور
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordStrengthMessage, setPasswordStrengthMessage] = useState('');
 
   const { name, email, password1, password2, textChange } = formData;
 
-  // دالة للتحقق من قوة كلمة المرور
   const validatePasswordStrength = password => {
     const lengthValid = password.length >= 8;
     const hasUpperCase = /[A-Z]/.test(password);
@@ -30,7 +29,7 @@ const Register = () => {
 
     if (!validPassword) {
       setPasswordStrengthMessage(
-        'Password must be at least 8 characters, include an uppercase letter, a number, and a special character.'
+        'يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل، وتحتوي على حرف كبير، ورقم، ورمز خاص.'
       );
     } else {
       setPasswordStrengthMessage('');
@@ -41,7 +40,7 @@ const Register = () => {
   const handleChange = text => e => {
     setFormData({ ...formData, [text]: e.target.value });
     if (text === 'password1') {
-      setPasswordStrengthMessage(''); // إعادة تعيين رسالة قوة كلمة المرور عند الكتابة
+      setPasswordStrengthMessage('');
     }
   };
 
@@ -50,7 +49,7 @@ const Register = () => {
     if (name && email && password1) {
       if (password1 === password2) {
         if (validatePasswordStrength(password1)) {
-          setFormData({ ...formData, textChange: 'Submitting' });
+          setFormData({ ...formData, textChange: 'جارٍ الإرسال' });
           console.log(process.env.REACT_APP_API_URL);
 
           axios.post(`${process.env.REACT_APP_API_URL}/register`, {
@@ -65,7 +64,7 @@ const Register = () => {
                 email: '',
                 password1: '',
                 password2: '',
-                textChange: 'Submitted'
+                textChange: 'تم الإرسال'
               });
 
               toast.success(res.data.message);
@@ -75,23 +74,23 @@ const Register = () => {
                   ...formData,
                   password1: '',
                   password2: '',
-                  textChange: 'Sign Up'
+                  textChange: 'تسجيل'
               });
           
-              console.log(err.response);  // طباعة الخطأ لمساعدتك في التشخيص
+              console.log(err.response);
           
               if (err.response && err.response.data) {
-                  toast.error(err.response.errors || 'An error occurred. Please try again later.');  // عرض رسالة الخطأ
+                  toast.error(err.response.errors || 'حدث خطأ. يرجى المحاولة مرة أخرى لاحقًا.');
               } else {
-                  toast.error('An error occurred,, Please try again later.');  // رسالة افتراضية
+                  toast.error('حدث خطأ. يرجى المحاولة مرة أخرى لاحقًا.');
               }
           });
         }
       } else {
-        toast.error("Passwords don't match");
+        toast.error("كلمتا المرور غير متطابقتين");
       }
     } else {
-      toast.error('Please fill all fields');
+      toast.error('يرجى ملء جميع الحقول');
     }
   };
 
@@ -103,7 +102,7 @@ const Register = () => {
         <div className='lg:w-1/2 xl:w-5/12 p-6 sm:p-12'>
           <div className='mt-12 flex flex-col items-center'>
             <h1 className='text-2xl xl:text-3xl font-extrabold'>
-              Sign Up for Congar
+              التسجيل في البوابة الآمنة
             </h1>
 
             <form
@@ -114,21 +113,21 @@ const Register = () => {
                 <input
                   className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white'
                   type='text'
-                  placeholder='Name'
+                  placeholder='الاسم'
                   onChange={handleChange('name')}
                   value={name}
                 />
                 <input
                   className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5'
                   type='email'
-                  placeholder='Email'
+                  placeholder='البريد الإلكتروني'
                   onChange={handleChange('email')}
                   value={email}
                 />
                 <input
                   className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5'
                   type='password'
-                  placeholder='Password'
+                  placeholder='كلمة المرور'
                   onChange={handleChange('password1')}
                   value={password1}
                 />
@@ -138,7 +137,7 @@ const Register = () => {
                 <input
                   className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5'
                   type='password'
-                  placeholder='Confirm Password'
+                  placeholder='تأكيد كلمة المرور'
                   onChange={handleChange('password2')}
                   value={password2}
                 />
@@ -146,24 +145,23 @@ const Register = () => {
                   type='submit'
                   className='mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none'
                 >
-                  <i className='fas fa-user-plus fa 1x w-6  -ml-2' />
+                  <i className='fas fa-user-plus fa 1x w-6 -ml-2' />
                   <span className='ml-3'>{textChange}</span>
                 </button>
               </div>
               <div className='my-12 border-b text-center'>
                 <div className='leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2'>
-                  Or sign with email or social login
+                اذا كان لديك حساب قم بتسجيل الدخول  
                 </div>
               </div>
               <div className='flex flex-col items-center'>
                 <a
-                  className='w-full max-w-xs font-bold shadow-sm rounded-lg py-3
-           bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5'
+                  className='w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5'
                   href='/login'
                   target='_self'
                 >
-                  <i className='fas fa-sign-in-alt fa 1x w-6  -ml-2 text-indigo-500' />
-                  <span className='ml-4'>Sign In</span>
+                  <i className='fas fa-sign-in-alt fa 1x w-6 -ml-2 text-indigo-500' />
+                  <span className='ml-4'>تسجيل الدخول</span>
                 </a>
               </div>
             </form>
