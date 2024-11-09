@@ -183,7 +183,7 @@ exports.signinController = (req, res) => {
             return res.status(500).json({ errors: 'Database error' });
           });
         } else {
-          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.SESSION_EXPIRY });
           const { _id, name, email, role } = user;
 
           // إعادة تعيين المحاولات بعد نجاح تسجيل الدخول
