@@ -30,13 +30,13 @@ function App({ history }) {
         <div className='lg:w-1/2 xl:w-8/12 p-6 sm:p-12'>
           <div className='mt-12 flex flex-col items-center'>
             <h1 className='text-2xl xl:text-2xl font-extrabold text-center'>
-              Ultimate Auth with Email & Facebook & Google with different roles,
-              email verification & Forget password
+        
+              مرحبا بكم في بوابة الدخول الآمنة
             </h1>
             <div className='w-full flex-1 mt-8 text-indigo-500'>
               <div className='my-12 border-b text-center'>
                 <div className='leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2'>
-                  Features
+                  الميزات
                 </div>
               </div>
               <div className='mx-auto max-w-xs relative'>
@@ -45,21 +45,22 @@ function App({ history }) {
                   className='mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none'
                 >
                   <i className='fas fa-sign-in-alt w-6 -ml-2' />
-                  <span className='ml-3'>Sign In</span>
+                  <span className='mr-3'>تسجيل الدخول</span>
                 </Link>
                 <Link
                   to='/register'
                   className='mt-5 tracking-wide font-semibold bg-gray-500 text-gray-100 w-full py-4 rounded-lg hover:bg-gray-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none'
                 >
                   <i className='fas fa-user-plus w-6 -ml-2' />
-                  <span className='ml-3'>Sign Up</span>
+                  <span className='mr-3'>إنشاء حساب</span>
                 </Link>
                 <Link
                   to='/private'
                   className='mt-5 tracking-wide font-semibold bg-orange-500 text-gray-100 w-full py-4 rounded-lg hover:bg-orange-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none'
                 >
                   <i className='fas fa-sign-in-alt w-6 -ml-2' />
-                  <span className='ml-3'>Profile Dashboard</span>
+
+                  <span className='mr-3'>لوحة التحكم الشخصية</span>
                 </Link>
                 <Link
                   to='/admin'
@@ -67,18 +68,22 @@ function App({ history }) {
                 >
                   <i className='fas fa-sign-in-alt w-6 -ml-2' />
                   <span className='ml-3'>Admin Dashboard</span>
+
+                  <span className='mr-3'>لوحة التحكم الإدارية</span>
                 </Link>
                 <button
                   onClick={() => {
                     signout(() => {
-                      toast.error('Signout Successfully');
+                      toast.error('تم تسجيل الخروج بنجاح');
                       history.push('/');
                     });
                   }}
                   className='mt-5 tracking-wide font-semibold bg-pink-500 text-gray-100 w-full py-4 rounded-lg hover:bg-pink-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none'
                 >
                   <i className='fas fa-sign-out-alt w-6 -ml-2' />
-                  <span className='ml-3'>Signout</span>
+
+                  <span className='mr-3'>تسجيل الخروج</span>
+
                 </button>
               </div>
             </div>
@@ -87,6 +92,7 @@ function App({ history }) {
       </div>
     </div>
   );
+  
 }
 
 export default App;
