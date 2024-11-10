@@ -1,4 +1,4 @@
-# Implement secure authentication ( email verified , strong password , limit login attempts , session management , hashed # password  ) to protect user accounts
+Implement secure authentication ( email verified , strong password , limit login attempts , session management , hashed # password  ) to protect user accounts
 
 Percentage of successful logins using MFA, Reduction in unauthorized access attempts
 
