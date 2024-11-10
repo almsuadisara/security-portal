@@ -6,7 +6,7 @@ import { authenticate, isAuth } from '../helpers/auth';
 import { Link, Redirect } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-
+// login screen
 const Login = ({ history }) => {
   const [formData, setFormData] = useState({
     email: '',

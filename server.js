@@ -12,27 +12,22 @@ require('dotenv').config({
 
 const app = express();
 
-// WebSocket: يجب أن يتم ربطه بالسيرفر
-const server = require('http').Server(app); // أنشئ سيرفر HTTP
+const server = require('http').Server(app); 
 const wss = new WebSocket.Server({ server }); // ربط WebSocket بالسيرفر
 
-// WebSocket: عندما يتصل عميل جديد
+// let me know if new client connect 
 wss.on('connection', ws => {
     console.log('A new client connected');
-  
-    // استقبال رسالة من العميل (مثل طلبات أو إشعارات من العميل)
+
     ws.on('message', message => {
       console.log('Received message:', message);
     });
   
-    // إرسال إشعار بانتهاء الجلسة
     function sendSessionExpiredNotification() {
       ws.send('Your session has expired. Please log in again.');
     }
   
-    // يمكنك التحقق من انتهاء صلاحية التوكن هنا وإرسال الإشعار عندما تنتهي الصلاحية
-    // سيتم إرسال الإشعار مباشرة بعد الاتصال هنا فقط كاختبار
-    sendSessionExpiredNotification(); // هذا للإشارة إلى أنه يجب إرسال إشعار بعد انتهاء التوكن
+    sendSessionExpiredNotification(); 
 });
 
 
@@ -74,7 +69,7 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5000
 
-// ربط السيرفر مع WebSocket
+// connect server with websocket
 server.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 });

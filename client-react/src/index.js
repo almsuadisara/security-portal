@@ -13,6 +13,7 @@ import ResetPassword from './screens/ResetPassword.jsx';
 import PrivateRoute from './Routes/PrivateRoute';
 import AdminRoute from './Routes/AdminRoute';
 import 'react-toastify/dist/ReactToastify.css';
+//root page in react
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
